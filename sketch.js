@@ -1,115 +1,65 @@
-var survival=0
-var monkey , monkey_running
-var banana ,bananaImage, obstacle, obstacleImage
-var FoodGroup, obstacleGroup
-var ground
-function preload()
-{
-  monkey_running =                            loadAnimation("sprite_0.png","sprite_1.png","sprite_2.png","sprite_3.png","sprite_4.png","sprite_5.png","sprite_6.png","sprite_7.png","sprite_8.png")  
-  bananaImage = loadImage("banana.png");
-  obstacleImage = loadImage("obstacle.png"); 
+const Engine = Matter.Engine;
+const World = Matter.World;
+const Bodies = Matter.Bodies;
+const Body = Matter.Body;
+const Constraint = Matter.Constraint;
+var img
+function preload(){
+img=loadImage("polygon.png")
 }
-
-
-
-function setup()
-{
-  createCanvas(1040,700)
-  monkey=createSprite(100,400)
-  monkey.addAnimation("moving",monkey_running)
-  monkey.scale=0.25
+function setup (){
   
-  ground=createSprite(500,700,5000,40)
-  ground.velocityX=-5
-
-  FoodGroup=new Group()
-  obstacleGroup=new Group()
-}
+    createCanvas(800, 400);
+    engine = Engine.create();
+    world = engine.world;
 
 
-function draw()
-{
-  background("green") 
+    Engine.run(engine);
+
+
   
-  if(ground.x<0)
-  {
-    ground.x=ground.width/2
-  }
-  if(monkey.x>1000)
-  {
-    monkey.x=monkey.width/2
-  }
-  if(keyDown("space")&&monkey.y<700)
-  {    
-    monkey.velocityY=-5
-  }
-  
-  monkey.velocityY=monkey.velocityY+0.12
-  if(monkey.isTouching(ground))
-  {
-    monkey.collide(ground)    
-  }
-  
- 
-   if(keyDown("a"))
-   {
-      monkey.velocityX=2    
-   }
+
+    ground = new Ground(600, 400, 10000, 20);
+    tower = new Tower(560, 350, 30, 100);
+    tower1 = new Tower(600, 350, 30, 100);
+    tower2 = new Tower(520, 350, 30, 100);
+    tower3 = new Tower(640, 350, 30, 100);
+    tower4 = new Tower(530, 250, 30, 100);
+    tower5 = new Tower(580, 250, 30, 100);
+    tower6 = new Tower(630, 250, 30, 100);
+    tower7 = new Tower(550, 150, 30, 100);
+    tower8 = new Tower(610, 150, 30, 100);
+    tower9 = new Tower(580, 50, 30, 100);
+
+    polygon=new Polygon(50,200,20)
+    polygon.addImage=("polygon.png")
+
    
-  bananaMaker();
-  obstacles();
-  if(monkey.isTouching(FoodGroup))
-  {
-    survival=survival+1
-    FoodGroup.destroyEach()
-    
+
   }
+
+
+function draw() {
+  background(76);  
+  tower.display()
+ tower1.display()
+ tower2.display()
+ tower3.display()
+ tower4.display()
+ tower5.display()
+ tower6.display()
+ tower7.display()
+ tower8.display()
+ tower9.display()
+ground.display()
+polygon.display()
   
-  if(monkey.isTouching(obstacleGroup))
-  {
-    
-     monkey.velocityX=0
-     banana.x=Math.round(random(111100,1111111100))
-    banana.y=Math.round(random(6594030221100,3234454400))
-      obstacle.x=Math.round(random(111100,1111111100))
-    obstacle.y=Math.round(random(6594030221100,3234454400))
-    text("Game Over",600,300)
-    survival=0
-  }   
-  
-  text("Survival  " +  survival,300,300)
-  drawSprites(); 
 }
-
-function bananaMaker()
-{  
-  if (World.frameCount % 60 == 0)
-  {
-    
-    banana = createSprite(100,400,10,40);
-    banana.addImage("bun",bananaImage)
-    banana.x=Math.round(random(100,700))
-    banana.y=Math.round(random(400,700))
-    banana.velocityY=3
-    banana.lifetime=100
-    banana.scale=0.25
-    FoodGroup.add(banana)   
-  }
-}
-function obstacles()
-{
-  if (World.frameCount % 150 == 0)
-  {
-    obstacle = createSprite(700,650,10,40);
-    obstacle.velocityX = -4   
-    obstacle.addImage("ob", obstacleImage)  
-    obstacle.lifetime=300
-    obstacle.scale=0.25
-    obstacleGroup.add(obstacle)
-  }
-                        
-}
+//function mouseDragged(){
+//  Matter.Body.setPosition(sling.body, {x: mouseX , y: mouseY});
+//}
 
 
-
-
+//function mouseReleased(){
+//  sling.fly();
+//}
